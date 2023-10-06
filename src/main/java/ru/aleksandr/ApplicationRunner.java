@@ -27,7 +27,6 @@ public class ApplicationRunner {
 
             switch (action) {
                 case 1:
-                    System.out.println("Ya v 1");
                     engRuView.show();
                     break;
                 case 2:

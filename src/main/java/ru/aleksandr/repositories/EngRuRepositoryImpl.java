@@ -24,13 +24,11 @@ public class EngRuRepositoryImpl implements EngRuRepository {
 
 
     public List<String> getAll() {
-        //переписать, не работает
         List<String> words = new ArrayList<>();
-        while (prop.propertyNames().hasMoreElements()) {
-            String key = (String) prop.propertyNames().nextElement();
-            words.add(key + " - " + prop.getProperty(key));
-        }
-        return words;
+        PrintWriter ps = new PrintWriter(System.out);
+        prop.list(ps);
+        ps.flush();
+        return null;
     }
 
     public String getByKey(String s) {
