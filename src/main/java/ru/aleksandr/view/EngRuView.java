@@ -2,7 +2,6 @@ package ru.aleksandr.view;
 
 import ru.aleksandr.repositories.EngRuRepositoryImpl;
 
-import java.util.Scanner;
 
 public class EngRuView {
     private final EngRuRepositoryImpl engRuRepository = new EngRuRepositoryImpl();

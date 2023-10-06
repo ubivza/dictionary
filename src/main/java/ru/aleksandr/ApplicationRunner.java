@@ -1,12 +1,14 @@
 package ru.aleksandr;
 
 import ru.aleksandr.view.EngRuView;
+import ru.aleksandr.view.SpanishRuView;
 
 import java.util.Scanner;
 
 public class ApplicationRunner {
     private static boolean abort = true;
     private static EngRuView engRuView = new EngRuView();
+    private static SpanishRuView spanishRuView = new SpanishRuView();
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
@@ -30,7 +32,7 @@ public class ApplicationRunner {
                     engRuView.show();
                     break;
                 case 2:
-
+                    spanishRuView.show();
                     break;
                 case 3:
                     System.out.println("Введите слово которое хотите найти:");
@@ -38,7 +40,9 @@ public class ApplicationRunner {
                     engRuView.showByWord(wordToFind);
                     break;
                 case 4:
-
+                    System.out.println("Введите слово которое хотите найти:");
+                    String wordToFind2 = scanner.nextLine();
+                    spanishRuView.showByWord(wordToFind2);
                     break;
                 case 5:
                     System.out.println("Введите слово которое хотите удалить:");
@@ -46,7 +50,9 @@ public class ApplicationRunner {
                     engRuView.deleteByWord(wordTodelete);
                     break;
                 case 6:
-
+                    System.out.println("Введите слово которое хотите удалить:");
+                    String wordTodelete2 = scanner.nextLine();
+                    spanishRuView.deleteByWord(wordTodelete2);
                     break;
                 case 7:
                     System.out.println("Введите слово, которое хотите добавить и его перевод через дефис:");
@@ -55,7 +61,10 @@ public class ApplicationRunner {
                     engRuView.addWord(wordToAdd);
                     break;
                 case 8:
-
+                    System.out.println("Введите слово, которое хотите добавить и его перевод через дефис:");
+                    System.out.println("Формат : 4 в длину и содержит только латинские буквы");
+                    String wordToAdd2 = scanner.nextLine();
+                    spanishRuView.addWord(wordToAdd2);
                     break;
                 case 9:
                     abort = false;
@@ -65,5 +74,6 @@ public class ApplicationRunner {
                     break;
             }
         }
+        scanner.close();
     }
 }

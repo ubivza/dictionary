@@ -1,12 +1,7 @@
 package ru.aleksandr.models;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-
-import java.io.Serializable;
-import java.util.regex.Pattern;
 
 @Data
 @NoArgsConstructor

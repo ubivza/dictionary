@@ -1,7 +1,6 @@
 package ru.aleksandr.repositories;
 
 import java.util.List;
-import java.util.Map;
 
 public interface GenericRepository<T, KEY> {
     List<T> getAll();
