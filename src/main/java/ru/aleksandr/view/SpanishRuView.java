@@ -1,10 +1,10 @@
-package ru.aleksandr.services;
+package ru.aleksandr.view;
 
 import lombok.RequiredArgsConstructor;
 import ru.aleksandr.repositories.SpanishRuRepositoryImpl;
 
 @RequiredArgsConstructor
-public class SpanishRuService {
+public class SpanishRuView {
     private final SpanishRuRepositoryImpl spanishRuRepository;
 
 }

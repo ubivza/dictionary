@@ -2,14 +2,15 @@ package ru.aleksandr.models;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
 import java.util.regex.Pattern;
 
 @Data
-@AllArgsConstructor
-public class SpanishRuDictionaryWord implements Serializable {
+@NoArgsConstructor
+public class SpanishRuDictionaryWord {
     private String spanishWord;
     private String ruWord;
     private static final String pattern = "[A-Z, a-z]";
