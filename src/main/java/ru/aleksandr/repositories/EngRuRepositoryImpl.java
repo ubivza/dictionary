@@ -7,7 +7,7 @@ import java.util.*;
 
 public class EngRuRepositoryImpl implements EngRuRepository {
     private final Properties prop;
-    private final String FILE_NAME = "src/dictionary1.properties";
+    private final String FILE_NAME = "src/main/resources/dictionary1.properties";
     private InputStream in;
 
     public EngRuRepositoryImpl() {

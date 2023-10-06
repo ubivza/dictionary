@@ -9,7 +9,7 @@ import java.util.Properties;
 
 public class SpanishRuRepositoryImpl implements SpanishRuRepository{
     private final Properties prop;
-    private final String FILE_NAME = "src/dictionary2.properties";
+    private final String FILE_NAME = "src/main/resources/dictionary2.properties";
     private InputStream in;
 
     public SpanishRuRepositoryImpl() {
