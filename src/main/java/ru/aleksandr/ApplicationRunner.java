@@ -2,7 +2,6 @@ package ru.aleksandr;
 
 import ru.aleksandr.view.EngRuView;
 import ru.aleksandr.view.SpanishRuView;
-
 import java.util.Scanner;
 
 public class ApplicationRunner {

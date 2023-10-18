@@ -10,15 +10,15 @@ import java.util.Properties;
 public class SpanishRuRepositoryImpl implements SpanishRuRepository{
     private final Properties prop;
     private final String FILE_NAME = "src/main/resources/dictionary2.properties";
-    private InputStream in;
 
     public SpanishRuRepositoryImpl() {
         this.prop = new Properties();
-        try {
-            in = new FileInputStream(FILE_NAME);
+        try(InputStream in = new FileInputStream(FILE_NAME)) {
             prop.load(in);
         } catch (FileNotFoundException e) {
             throw new RuntimeException("No such properties file");
+            //чтобы программа не вылетала с ошибкой можно сделать просто логгирование +
+            //сообщением пользователю что возникла проблема
         } catch (IOException e) {
             throw new RuntimeException("Something went wrong");
         }

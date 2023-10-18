@@ -8,12 +8,10 @@ import java.util.*;
 public class EngRuRepositoryImpl implements EngRuRepository {
     private final Properties prop;
     private final String FILE_NAME = "src/main/resources/dictionary1.properties";
-    private InputStream in;
 
     public EngRuRepositoryImpl() {
         this.prop = new Properties();
-        try {
-            in = new FileInputStream(FILE_NAME);
+        try(InputStream in = new FileInputStream(FILE_NAME)) {
             prop.load(in);
         } catch (FileNotFoundException e) {
             throw new RuntimeException("No such properties file");
