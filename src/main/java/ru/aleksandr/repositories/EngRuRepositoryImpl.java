@@ -5,14 +5,19 @@ import ru.aleksandr.models.EngRuDictWord;
 import java.io.*;
 import java.util.*;
 
-public class EngRuRepositoryImpl implements EngRuRepository {
-    private final Properties prop;
+public class EngRuRepositoryImpl implements EngRuRepository, Cacheable {
+    private final Properties properties;
     private final String FILE_NAME = "src/main/resources/dictionary1.properties";
+    private Map<String, String> cacheMap = new HashMap<>();
 
     public EngRuRepositoryImpl() {
-        this.prop = new Properties();
+        this.properties = new Properties();
         try(InputStream in = new FileInputStream(FILE_NAME)) {
-            prop.load(in);
+            properties.load(in);
+
+            cacheMap.putAll((Map) properties);
+
+            properties.clear();
         } catch (FileNotFoundException e) {
             throw new RuntimeException("No such properties file");
         } catch (IOException e) {
@@ -21,42 +26,54 @@ public class EngRuRepositoryImpl implements EngRuRepository {
     }
 
 
-    public List<String> getAll() {
-        List<String> words = new ArrayList<>();
-        PrintWriter ps = new PrintWriter(System.out);
-        prop.list(ps);
-        ps.flush();
-        return null;
+    public Map<String, String> getAll() {
+        return cacheMap;
     }
 
     public String getByKey(String s) {
-        return prop.getProperty(s, "Key not found, try again");
+        if (!cacheMap.containsKey(s))
+            return "Key not found, try again";
+        return cacheMap.get(s);
     }
 
-    public void save(String s) {
+    public boolean save(String s) {
         String[] valueToSave = s.trim().split(" - ", 2);
         EngRuDictWord word = new EngRuDictWord();
         word.setEnglishWord(valueToSave[0]);
         word.setRuWord(valueToSave[1]);
-        prop.setProperty(word.getEnglishWord(), word.getRuWord());
-        try {
-            prop.store(new FileOutputStream(FILE_NAME), null);
-        } catch (IOException e) {
-            throw new RuntimeException("No such properties file found to save");
+
+        cacheMap.put(word.getEnglishWord(), word.getRuWord());
+        return true;
+    }
+
+    public boolean update(String s) {
+        String[] valueToUpdate = s.trim().split(" - ", 2);
+
+        if (cacheMap.containsKey(valueToUpdate[0])) {
+            cacheMap.put(valueToUpdate[0], valueToUpdate[1]);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean deleteByKey(String s) {
+        if (cacheMap.containsKey(s)) {
+            cacheMap.remove(s);
+            return true;
+        } else {
+            return false;
         }
     }
 
-    public void update(String s) {
-        //сделаю позже
-    }
-
-    public void deleteByKey(String s) {
-        prop.remove(s);
-        try {
-            prop.store(new FileOutputStream(FILE_NAME), null);
+    @Override
+    public void saveCacheToMemory() {
+        try(OutputStream out = new FileOutputStream(FILE_NAME)) {
+            properties.putAll(cacheMap);
+            properties.store(out, null);
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException("No such properties file while saving");
         } catch (IOException e) {
-            throw new RuntimeException("No such properties file found to delete");
+            throw new RuntimeException("Something went wrong while saving properties file");
         }
     }
-
 }
