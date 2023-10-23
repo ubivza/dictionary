@@ -9,6 +9,7 @@ public class EngRuRepositoryImpl implements EngRuRepository, Cacheable {
     private final Properties properties;
     private final String FILE_NAME = "src/main/resources/dictionary1.properties";
     private Map<String, String> cacheMap = new HashMap<>();
+    private boolean isNotChanged = true;
 
     public EngRuRepositoryImpl() {
         this.properties = new Properties();
@@ -43,6 +44,7 @@ public class EngRuRepositoryImpl implements EngRuRepository, Cacheable {
         word.setRuWord(valueToSave[1]);
 
         cacheMap.put(word.getEnglishWord(), word.getRuWord());
+        isNotChanged = false;
         return true;
     }
 
@@ -51,6 +53,7 @@ public class EngRuRepositoryImpl implements EngRuRepository, Cacheable {
 
         if (cacheMap.containsKey(valueToUpdate[0])) {
             cacheMap.put(valueToUpdate[0], valueToUpdate[1]);
+            isNotChanged = false;
             return true;
         }
         return false;
@@ -59,14 +62,17 @@ public class EngRuRepositoryImpl implements EngRuRepository, Cacheable {
     public boolean deleteByKey(String s) {
         if (cacheMap.containsKey(s)) {
             cacheMap.remove(s);
+            isNotChanged = false;
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 
     @Override
     public void saveCacheToMemory() {
+        if (isNotChanged)
+            return;
+
         try(OutputStream out = new FileOutputStream(FILE_NAME)) {
             properties.putAll(cacheMap);
             properties.store(out, null);

@@ -9,6 +9,7 @@ public class SpanishRuRepositoryImpl implements SpanishRuRepository, Cacheable {
     private final Properties properties;
     private final String FILE_NAME = "src/main/resources/dictionary2.properties";
     private Map<String, String> cacheMap = new HashMap<>();
+    private boolean isNotChanged = true;
 
 
     public SpanishRuRepositoryImpl() {
@@ -44,6 +45,7 @@ public class SpanishRuRepositoryImpl implements SpanishRuRepository, Cacheable {
         word.setRuWord(valueToSave[1]);
 
         cacheMap.put(word.getSpanishWord(), word.getRuWord());
+        isNotChanged = false;
         return true;
     }
 
@@ -52,6 +54,7 @@ public class SpanishRuRepositoryImpl implements SpanishRuRepository, Cacheable {
 
         if (cacheMap.containsKey(valueToUpdate[0])) {
             cacheMap.put(valueToUpdate[0], valueToUpdate[1]);
+            isNotChanged = false;
             return true;
         }
         return false;
@@ -60,14 +63,17 @@ public class SpanishRuRepositoryImpl implements SpanishRuRepository, Cacheable {
     public boolean deleteByKey(String s) {
         if (cacheMap.containsKey(s)) {
             cacheMap.remove(s);
+            isNotChanged = false;
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 
     @Override
     public void saveCacheToMemory() {
+        if (isNotChanged)
+            return;
+
         try(OutputStream out = new FileOutputStream(FILE_NAME)) {
             properties.putAll(cacheMap);
             properties.store(out, null);
